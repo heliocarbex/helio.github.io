@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transforme Seu Negócio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+            padding: 50px 40px;
+            text-align: center;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .benefits {
+            text-align: left;
+            margin-bottom: 40px;
+        }
+
+        .benefit {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .benefit::before {
+            content: "✓";
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            margin-right: 12px;
+            font-weight: bold;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 17px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .privacy {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">🚀</div>
+        <h1>Acelere Seus Resultados</h1>
+        <p class="subtitle">Receba gratuitamente nosso guia exclusivo e transforme seu negócio em 30 dias</p>
+        
+        <div class="benefits">
+            <div class="benefit">Estratégias comprovadas de crescimento</div>
+            <div class="benefit">Acesso a materiais exclusivos</div>
+            <div class="benefit">Suporte especializado gratuito</div>
+        </div>
+
+        <form id="leadForm">
+            <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required>
+            <input type="email" id="email" name="email" placeholder="Seu melhor e-mail" required>
+            <input type="tel" id="telefone" name="telefone" placeholder="Seu telefone (opcional)">
+            <button type="submit" id="submitBtn">QUERO RECEBER O GUIA GRÁTIS</button>
+        </form>
+
+        <div class="message" id="message"></div>
+
+        <p class="privacy">🔒 Seus dados estão seguros. Não compartilhamos com terceiros.</p>
+    </div>
+
+    <script>
+        // SUBSTITUA ESTA URL PELA URL DO SEU GOOGLE APPS SCRIPT
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwTKj8Hkwn5To-B6dPRtXBNpjyUjlBrZ9kANCUXZizT5ODSApkU-Ui2ITLuzx2OuBahkg/exec';
+
+        document.getElementById('leadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const message = document.getElementById('message');
+            const form = e.target;
+            
+            // Desabilita o botão
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'ENVIANDO...';
+            message.style.display = 'none';
+            
+            // Coleta os dados
+            const formData = {
+                nome: document.getElementById('nome').value,
+                email: document.getElementById('email').value,
+                telefone: document.getElementById('telefone').value,
+                data: new Date().toLocaleString('pt-BR')
+            };
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                // Com no-cors, não conseguimos ler a resposta, mas se não houver erro, assumimos sucesso
+                message.className = 'message success';
+                message.textContent = '✅ Cadastro realizado com sucesso! Confira seu e-mail.';
+                message.style.display = 'block';
+                form.reset();
+                
+            } catch (error) {
+                message.className = 'message error';
+                message.textContent = '❌ Erro ao enviar. Tente novamente.';
+                message.style.display = 'block';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'QUERO RECEBER O GUIA GRÁTIS';
+            }
+        });
+    </script>
+</body>
+</html>
